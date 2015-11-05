@@ -1,0 +1,44 @@
+<h1>Payments</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Creator</th>
+      <th>Balance changes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @payments.each do |p| %>
+      <tr>
+        <td><%= p.title %></td>
+        <td><%= p.creator.first_name %></td>
+        <td>
+          <ul>
+            <% p.balance_changes.each do |bc| %>
+              <li><%= bc.user.first_name %> : <%= bc.change %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "New payment", new_payment_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |u| %>
+      <tr>
+        <td><%= u.first_name %></td>
+        <td><%= u.balance %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

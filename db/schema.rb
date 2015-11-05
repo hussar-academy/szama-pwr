@@ -11,7 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029141600) do
+ActiveRecord::Schema.define(version: 20151103181851) do
+
+  create_table "balance_changes", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "payment_id", null: false
+    t.decimal  "change",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "balance_changes", ["payment_id"], name: "index_balance_changes_on_payment_id"
+  add_index "balance_changes", ["user_id"], name: "index_balance_changes_on_user_id"
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "creator_id", null: false
+    t.string   "title",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "payments", ["creator_id"], name: "index_payments_on_creator_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"

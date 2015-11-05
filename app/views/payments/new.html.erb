@@ -1,0 +1,16 @@
+<%= form_for @payment do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %><br />
+
+  <%= f.label :creator %>
+  <%= f.collection_select(:creator_id, User.all, :id, :first_name) %><br />
+
+  <h3>Balance changes</h3>
+  <%= f.fields_for :balance_changes do |ff| %>
+    <%= ff.hidden_field :user_id %>
+    <%= ff.object.user.first_name %>
+    <%= ff.text_field :change %><br />
+  <% end %>
+
+  <%= f.submit %>
+<% end %>
