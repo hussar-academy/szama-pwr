@@ -6,13 +6,11 @@ class BalanceChange < ActiveRecord::Base
   validates :payment, presence: true
   validates :change, presence: true, numericality: true
 
-  after_create :update_user_balance
+  after_create :update_user_balance!
 
   private
 
-  def update_user_balance
-    user.reload
-    user.balance = user.balance + change
-    user.save!
+  def update_user_balance!
+    user.update_balance!
   end
 end
