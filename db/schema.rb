@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151103181851) do
+ActiveRecord::Schema.define(version: 20151122141405) do
 
   create_table "balance_changes", force: :cascade do |t|
     t.integer  "user_id",    null: false
@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 20151103181851) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.decimal  "balance"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.decimal  "balance",    default: 0.0, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
 end
