@@ -42,3 +42,49 @@
     <% end %>
   </tbody>
 </table>
+
+<h1>AngularJS</h1>
+
+<div ng-controller="PaymentsCtrl">
+  <h3>Users</h3>
+  <ul>
+    <li ng-repeat="user in users">{{ user.name }}; {{ user.balance }}</li>
+  </ul>
+
+  <h3>Payments</h3>
+  <table>
+    <thead>
+      <th>Title</th>
+      <th>Creator</th>
+      <th>Balance changes</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="payment in payments">
+        <td>{{ payment.title }}</td>
+        <td>{{ users[payment.creator_id].name }}</td>
+        <td>
+          <ul>
+            <li ng-repeat="change in payment.balance_changes">
+              {{  users[change.user_id].name }}: {{ change.change }}
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form ng-submit="addNewPayment()">
+    <input ng-model="newPayment.title" placeholder="Title">
+    <br>
+    <input ng-model="newPayment.creator_id" placeholder="User ID">
+    <br>
+    <h5>Balance changes</h5>
+    <ul>
+      <li ng-repeat="(userID, user) in users">
+        {{ user.name }} <input ng-model="newPayment.balance_changes[userID]">
+      </li>
+    </ul>
+
+    <input type="submit">
+  </form>
+</div>
