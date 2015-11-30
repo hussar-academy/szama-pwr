@@ -48,7 +48,7 @@
 <div ng-controller="PaymentsCtrl">
   <h3>Users</h3>
   <ul>
-    <li ng-repeat="user in users">{{ user.name }}; {{ user.balance }}</li>
+    <li ng-repeat="user in users"><div user-data="user"></div></li>
   </ul>
 
   <h3>Payments</h3>
@@ -59,16 +59,7 @@
       <th>Balance changes</th>
     </thead>
     <tbody>
-      <tr ng-repeat="payment in payments">
-        <td>{{ payment.title }}</td>
-        <td>{{ users[payment.creator_id].name }}</td>
-        <td>
-          <ul>
-            <li ng-repeat="change in payment.balance_changes">
-              {{  users[change.user_id].name }}: {{ change.change }}
-            </li>
-          </ul>
-        </td>
+      <tr payment-data="payment" users="users" ng-repeat="payment in payments">
       </tr>
     </tbody>
   </table>
@@ -76,7 +67,8 @@
   <form ng-submit="addNewPayment()">
     <input ng-model="newPayment.title" placeholder="Title">
     <br>
-    <input ng-model="newPayment.creator_id" placeholder="User ID">
+    <select ng-model="newPayment.creator_id" ng-options="userID as user.name for (userID, user) in users">
+    </select> Autor zamówienia
     <br>
     <h5>Balance changes</h5>
     <ul>
@@ -85,6 +77,6 @@
       </li>
     </ul>
 
-    <input type="submit">
+    <input type="submit" ng-disabled="!newPayment.creator_id || !newPayment.title">
   </form>
 </div>

@@ -1,38 +1,16 @@
-angular.module("szama").controller("PaymentsCtrl", function($scope) {
-  $scope.users = {
-    1: { name: "Jon", balance: 3.0 },
-    2: { name: "Hodor", balance: -3.0 },
-  };
-  $scope.payments = [
-    {
-      title: "Pizza",
-      creator_id: 1,
-      balance_changes: [
-        { user_id: 1, change: -10.0 },
-        { user_id: 2, change: -15.0 },
-        { user_id: 1, change: 25.0 },
-      ],
-    },
-    {
-      title: "Bagiety",
-      creator_id: 2,
-      balance_changes: [
-        { user_id: 1, change: -12.0 },
-        { user_id: 2, change: -14.0 },
-        { user_id: 2, change: 26.0 },
-      ]
-    },
-  ];
+angular.module("szama").controller("PaymentsCtrl", function($scope, Payment, User) {
+  $scope.users = User.index();
+  $scope.payments = Payment.index();
 
   resetNewPayment = function() {
     $scope.newPayment = {
       title: "",
       user_id: "",
       balance_changes: {}
-    }
+    };
   };
 
-  resetNewPayment()
+  resetNewPayment();
 
   // Example $scope.newPayment object:
   // {
