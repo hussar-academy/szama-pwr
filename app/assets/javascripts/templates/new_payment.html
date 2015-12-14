@@ -1,0 +1,16 @@
+<h2>New payment</h2>
+<form ng-submit="addNewPayment()">
+  <input ng-model="newPayment.title" placeholder="Title">
+  <br>
+  <select ng-model="newPayment.creator_id" ng-options="userID as user.name for (userID, user) in users">
+  </select> Author
+  <br>
+  <h5>Balance changes</h5>
+  <ul>
+    <li ng-repeat="(userID, user) in users">
+      {{ user.name }} <input ng-model="newPayment.balance_changes[userID]">
+    </li>
+  </ul>
+
+  <input type="submit" ng-disabled="!newPayment.creator_id || !newPayment.title">
+</form>

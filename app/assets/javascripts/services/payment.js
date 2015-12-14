@@ -3,6 +3,7 @@ angular.module('szama').service('Payment', function(){
   this.index = function() {
     return [
       {
+        id: 1,
         title: "Pizza",
         creator_id: 1,
         balance_changes: [
@@ -12,6 +13,7 @@ angular.module('szama').service('Payment', function(){
         ],
       },
       {
+        id: 2,
         title: "Bagiety",
         creator_id: 2,
         balance_changes: [

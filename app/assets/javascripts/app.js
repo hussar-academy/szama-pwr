@@ -1,1 +1,1 @@
-angular.module("szama", [])
+angular.module("szama", ["ngRoute"])
