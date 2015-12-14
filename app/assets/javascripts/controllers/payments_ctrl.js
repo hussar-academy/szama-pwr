@@ -1,6 +1,35 @@
 angular.module("szama").controller("PaymentsCtrl", function($scope, Payment, User) {
-  $scope.users = User.index();
-  $scope.payments = Payment.index();
+  $scope.users = {};
+  $scope.payments = [];
+
+  // User.index() returns promise so we have to provide success and error callbacks
+  User.index()
+    .success(function(users){
+      users.forEach(function(user){
+        $scope.users[user.id] = user;
+      })
+    }) // chaining
+    .error(function(error){
+      alert(error);
+    })
+  // Same with payments
+  Payment.index()
+    .success(function(payments){
+      $scope.payments = payments;
+    }) // tak zwany chain pattern
+    .error(function(error){
+      alert(error);
+    })
+
+  onPaymentCreateSuccess = function(payment){
+    $scope.payments.push(payment);
+    // reset $scope.newPayment to zero so we can add new one
+    resetNewPayment()
+  }
+
+  onPaymentCreateError = function(error){
+    alert("Nie utworzono paymentu:" + error);
+  }
 
   resetNewPayment = function() {
     $scope.newPayment = {
@@ -40,9 +69,9 @@ angular.module("szama").controller("PaymentsCtrl", function($scope, Payment, Use
       // Push "converted" balance change to temp balanceChangesArray
       balanceChangesArray.push({ user_id: userID, change: change });
       // Update total balance for $scope.users
-      $scope.users[userID].balance += change;
+      $scope.users[userID].balance = parseFloat($scope.users[userID].balance) + parseFloat(change);
       // How much money, in total, were spent
-      sumChanges += change;
+      sumChanges += parseFloat(change);
     });
 
     // Logic for adding new balance change for the creator - he is the one,
@@ -50,17 +79,17 @@ angular.module("szama").controller("PaymentsCtrl", function($scope, Payment, Use
     // balance change to balanceChangesArray and also update creator's whole
     // balance in $scope.users
     creatorsChange = -1 * sumChanges;
-    balanceChangesArray.push({
-      user_id: $scope.newPayment.creator_id,
-      change: creatorsChange,
-    })
-    $scope.users[$scope.newPayment.creator_id].balance += parseFloat(creatorsChange);
+    // # Backend gonna do it
+    // balanceChangesArray.push({
+    //   user_id: $scope.newPayment.creator_id,
+    //   change: creatorsChange,
+    // })
+    $scope.users[$scope.newPayment.creator_id].balance =
+      parseFloat($scope.users[$scope.newPayment.creator_id].balance) + parseFloat(creatorsChange);
 
     // Replace balance_changes hash with an array expected in $scope.payments
     $scope.newPayment.balance_changes = balanceChangesArray
-    // Push new payment
-    $scope.payments.push($scope.newPayment)
-    // reset $scope.newPayment to zero so we can add new one
-    resetNewPayment()
+    // Create payment on server // promise.then
+    Payment.create($scope.newPayment).then(onPaymentCreateSuccess, onPaymentCreateError);
   };
 });
