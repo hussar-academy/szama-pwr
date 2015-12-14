@@ -1,9 +1,5 @@
 require "rails_helper"
 
-def json_body
-  JSON.parse(response.body)
-end
-
 RSpec.describe Api::V1::UsersController, type: :request do
   let!(:user) { User.create(first_name: "John") }
   let!(:api_endpoint) { "/api/v1/users" }
