@@ -20,6 +20,8 @@
 require 'simplecov'
 SimpleCov.start
 
+Dir[Rails.root.join("spec/spec_helpers/**/*.rb")].each { |f| require f }
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -93,4 +95,5 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  config.include SpecHelpers::Api
 end
